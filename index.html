@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
+<title>여행 쇼핑 체크리스트</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#1d2330;--sub:#6b7280;--line:#e3e6ea;--blue:#2f6fed;--blue-soft:#e8f0fe;--red:#d93025;--red-soft:#fdecea;--green:#1e8e3e}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans KR",Roboto,-apple-system,sans-serif;font-size:17px}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:6px;padding:10px 10px;background:#fff;border-bottom:1px solid var(--line)}
+header h1{flex:1;font-size:20px;margin:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{width:46px;height:46px;border:none;background:transparent;font-size:26px;border-radius:12px;color:var(--text)}
+main{padding:12px 12px 120px}
+.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.fab{position:fixed;right:20px;bottom:calc(22px + env(safe-area-inset-bottom));width:66px;height:66px;border-radius:50%;border:none;background:var(--blue);color:#fff;font-size:36px;line-height:1;box-shadow:0 4px 14px rgba(47,111,237,.45);z-index:6}
+.btn{min-height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:16px;color:var(--text);display:inline-flex;align-items:center;justify-content:center}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn.danger{color:var(--red);border-color:#f3c3be;width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.trip-name{font-size:19px;font-weight:700}
+.sub{color:var(--sub);font-size:14px;margin-top:4px}
+.sub-inline{color:var(--sub);font-size:13px;font-weight:400}
+.bar{height:8px;background:var(--line);border-radius:4px;margin:10px 0 4px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--green)}
+.big{font-size:21px;font-weight:700}
+.sumgrid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin-top:10px;font-size:15px}
+.sumgrid b{text-align:right}
+.warn{background:var(--red-soft);color:var(--red);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:700;font-size:15px}
+.hint{background:var(--blue-soft);color:#1a4fb8;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}
+.linkbtn{border:none;background:none;color:var(--blue);text-decoration:underline;padding:0;font-size:inherit;font-weight:700}
+input,select,textarea{font:inherit;font-size:16px;width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text)}
+textarea{min-height:80px;resize:vertical}
+.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.filters select{font-size:14px;padding:6px 8px;min-height:44px}
+.checkline{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:16px}
+.checkline input{width:24px;height:24px;min-height:0;margin:0}
+.controls{margin-bottom:12px}
+.item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.check{flex:none;width:50px;height:50px;border-radius:50%;border:2px solid #c3c8d0;background:#fff;font-size:26px;color:transparent}
+.item.done{opacity:.5}
+.item.done .check{background:var(--green);border-color:var(--green);color:#fff}
+.item.done .name{text-decoration:line-through}
+.info{flex:1;min-width:0}
+.name{font-weight:700;font-size:17px;word-break:break-all}
+.qty{color:var(--blue)}
+.meta{color:var(--sub);font-size:13px;margin-top:3px}
+.memo{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price{font-size:14px;margin-top:4px}
+.thumb{width:54px;height:54px;border-radius:10px;object-fit:cover;flex:none}
+.pri,.tf{font-size:12px;padding:2px 7px;border-radius:999px;font-weight:700;vertical-align:middle;white-space:nowrap}
+.p1{background:#fde8e8;color:#c5221f}.p2{background:#e8f0fe;color:#1a56c4}.p3{background:#eef0f3;color:#6b7280}
+.tf{background:#e6f4ea;color:#1e7e34}
+.empty{text-align:center;color:var(--sub);padding:48px 16px;line-height:1.7}
+dialog{border:none;padding:0;width:100%;max-width:560px;margin:auto auto 0;border-radius:20px 20px 0 0;max-height:92vh;background:#fff;color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.35)}
+.sheet{padding:18px 16px calc(24px + env(safe-area-inset-bottom));overflow-y:auto;max-height:92vh}
+.sheet h2{margin:0 0 6px;font-size:20px;outline:none}
+.f{display:block;margin-top:14px;font-size:14px;color:var(--sub)}
+.f input,.f select,.f textarea{margin-top:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;gap:6px;margin-top:4px}.seg label{flex:1}.seg input{display:none}
+.seg span{display:flex;align-items:center;justify-content:center;min-height:46px;border:1px solid var(--line);border-radius:12px;font-size:15px}
+.seg input:checked+span{background:var(--blue);color:#fff;border-color:var(--blue)}
+.krw{font-size:13px;color:var(--blue);margin-top:4px;min-height:1em}
+.note{font-size:13px;color:var(--sub);margin-top:6px;line-height:1.5}
+.saved{background:#e6f4ea;color:#1e7e34;border-radius:10px;padding:8px 12px;font-size:14px;margin-top:6px}
+.photo-prev{max-width:100%;max-height:220px;border-radius:12px;margin-top:8px;display:block}
+.actions{display:flex;gap:8px;margin-top:20px}.actions .btn{flex:1}
+.section{font-size:15px;font-weight:700;margin:24px 0 4px}
+.cat-chip{display:inline-flex;align-items:center;padding:4px 4px 4px 12px;border-radius:999px;background:#eef0f3;margin:6px 6px 0 0;font-size:15px}
+.cat-chip button{border:none;background:transparent;font-size:18px;width:32px;height:32px;color:var(--sub)}
+#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#323232;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20;max-width:90%;text-align:center}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <button id="backBtn" class="icon-btn" hidden aria-label="뒤로">‹</button>
+  <h1 id="title">여행 쇼핑 체크리스트</h1>
+  <button id="settingsBtn" class="icon-btn" aria-label="설정">⚙️</button>
+</header>
+<main id="main"></main>
+<button id="fab" class="fab" aria-label="추가">＋</button>
+<dialog id="sheet"><div id="sheetBody"></div></dialog>
+<div id="toast"></div>
+
+<script>
+const DEFAULT_CATS=['화장품','간식','약','옷','기념품','전자제품','기타'];
+const PRI={1:'꼭',2:'있으면',3:'구경만'};
+const CURS=[['JPY','일본 엔'],['USD','미국 달러'],['EUR','유로'],['CNY','중국 위안'],['TWD','대만 달러'],['HKD','홍콩 달러'],['THB','태국 바트'],['VND','베트남 동'],['PHP','필리핀 페소'],['SGD','싱가포르 달러'],['MYR','말레이시아 링깃'],['GBP','영국 파운드'],['AUD','호주 달러'],['KRW','원화']];
+let db,trips=[],items=[];
+let settings={key:'main',categories:[...DEFAULT_CATS],dutyLimit:'',lastBackup:null};
+let view={name:'trips',id:null};
+let filt={q:'',cat:'',who:'',shop:'',onlyLeft:false};
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const num=v=>{if(v===null||v===undefined||v==='')return null;const n=parseFloat(String(v).replace(/,/g,''));return isFinite(n)?n:null};
+const fmt=n=>Number(n).toLocaleString('ko-KR',{maximumFractionDigits:2});
+const won=n=>Math.round(n).toLocaleString('ko-KR')+'원';
+const uniq=a=>[...new Set(a.filter(Boolean))].sort((x,y)=>x.localeCompare(y,'ko'));
+const clean=v=>String(v).trim().replace(/,/g,'');
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2300)}
+function ymd(d=new Date()){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')}
+
+/* ---------- 저장(IndexedDB) ---------- */
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open('travel-shopping',1);
+  r.onupgradeneeded=()=>{const d=r.result;d.createObjectStore('trips',{keyPath:'id'});d.createObjectStore('items',{keyPath:'id'});d.createObjectStore('settings',{keyPath:'key'})};
+  r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function req(store,mode,f){return new Promise((res,rej)=>{const t=db.transaction(store,mode);const r=f(t.objectStore(store));
+  t.oncomplete=()=>res(r?r.result:undefined);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})}
+const getAll=s=>req(s,'readonly',o=>o.getAll());
+const put=(s,v)=>req(s,'readwrite',o=>o.put(v));
+const putMany=(s,arr)=>req(s,'readwrite',o=>{arr.forEach(v=>o.put(v));return null});
+const remove=(s,k)=>req(s,'readwrite',o=>o.delete(k));
+const clearStore=s=>req(s,'readwrite',o=>o.clear());
+const saveSettings=()=>put('settings',settings);
+async function loadAll(){trips=await getAll('trips');items=await getAll('items');
+  const m=(await getAll('settings')).find(x=>x.key==='main');if(m)settings=Object.assign({},settings,m)}
+
+/* ---------- 계산 ---------- */
+const tripItems=id=>items.filter(i=>i.tripId===id);
+function totals(t){let est=0,act=0,left=0;const list=tripItems(t.id);
+  for(const i of list){const q=num(i.qty)||1;if(num(i.est)!=null)est+=num(i.est)*q;
+    if(i.bought){if(num(i.actual)!=null)act+=num(i.actual)*q}else left++}
+  return{count:list.length,left,est,act}}
+const toKRW=(a,t)=>{const r=num(t.rate);return r?a*r:null};
+function money(a,t){const k=toKRW(a,t);return `${fmt(a)} ${esc(t.currency||'')}`+(k!=null?` <span class="sub-inline">≈ ${won(k)}</span>`:'')}
+const dateRange=t=>t.start&&t.end?`${t.start} ~ ${t.end}`:(t.start||'');
+
+/* ---------- 여행 목록 화면 ---------- */
+function renderTrips(){
+  view={name:'trips',id:null};$('#title').textContent='여행 쇼핑 체크리스트';$('#backBtn').hidden=true;
+  const list=[...trips].sort((a,b)=>(b.start||'').localeCompare(a.start||'')||b.createdAt-a.createdAt);
+  if(!list.length){$('#main').innerHTML=`<div class="empty">아직 만든 여행이 없어요.<br>오른쪽 아래 <b>＋</b> 버튼을 눌러<br>첫 여행을 만들어 보세요.</div>`;return}
+  $('#main').innerHTML=list.map(t=>{const s=totals(t);const pct=s.count?Math.round((s.count-s.left)/s.count*100):0;
+    return `<div class="card"><div data-act="open" data-id="${t.id}">
+      <div class="trip-name">${esc(t.name)}</div>
+      <div class="sub">${esc([t.place,dateRange(t),t.currency].filter(Boolean).join(' · '))}</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="sub">산 것 ${s.count-s.left} / 전체 ${s.count}개</div></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn primary" data-act="open" data-id="${t.id}">열기</button>
+        <button class="btn" data-act="copyTrip" data-id="${t.id}">목록 복사</button>
+        <button class="btn" data-act="editTrip" data-id="${t.id}">수정</button></div></div>`}).join('')}
+
+/* ---------- 여행 안(품목) 화면 ---------- */
+function openTrip(id){
+  history.pushState({trip:id},'');view={name:'trip',id};filt={q:'',cat:'',who:'',shop:'',onlyLeft:false};
+  $('#title').textContent=trips.find(x=>x.id===id).name;$('#backBtn').hidden=false;
+  $('#main').innerHTML=`<div class="card" id="summary"></div>
+    <div class="controls"><input type="search" id="q" placeholder="🔍 품목 검색">
+      <div class="filters"><select id="fCat"></select><select id="fWho"></select><select id="fShop"></select></div>
+      <label class="checkline"><input type="checkbox" id="fLeft"> 안 산 것만 보기</label></div>
+    <div id="list"></div>`;
+  $('#q').oninput=e=>{filt.q=e.target.value.trim().toLowerCase();updateTrip()};
+  $('#fCat').onchange=e=>{filt.cat=e.target.value;updateTrip()};
+  $('#fWho').onchange=e=>{filt.who=e.target.value;updateTrip()};
+  $('#fShop').onchange=e=>{filt.shop=e.target.value;updateTrip()};
+  $('#fLeft').onchange=e=>{filt.onlyLeft=e.target.checked;updateTrip()};
+  updateTrip();window.scrollTo(0,0)}
+function fillSelect(sel,label,vals,cur){if(cur&&!vals.includes(cur))vals=[cur,...vals];
+  sel.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}"${v===cur?' selected':''}>${esc(v)}</option>`).join('')}
+function updateTrip(){
+  const t=trips.find(x=>x.id===view.id);if(!t)return renderTrips();
+  const all=tripItems(t.id),s=totals(t);
+  let h=`<div class="big">남은 품목 ${s.left}개 <span class="sub-inline">/ 전체 ${s.count}개</span></div>
+    <div class="sumgrid"><span>예상 총액</span><b>${money(s.est,t)}</b><span>실제 쓴 돈</span><b>${money(s.act,t)}</b></div>`;
+  if(!num(t.rate))h+=`<div class="hint">환율을 넣으면 원화로도 보여드려요. <button class="linkbtn" data-act="editTrip" data-id="${t.id}">환율 입력하기</button></div>`;
+  const actK=toKRW(s.act,t),lim=num(settings.dutyLimit);
+  if(lim&&actK!=null&&actK>lim)h+=`<div class="warn">⚠️ 면세한도(${won(lim)})를 ${won(actK-lim)} 넘었어요! 입국할 때 세관 신고가 필요할 수 있어요.</div>`;
+  else if(lim&&actK!=null&&actK>lim*0.8)h+=`<div class="hint">면세한도까지 ${won(lim-actK)} 남았어요.</div>`;
+  $('#summary').innerHTML=h;
+  fillSelect($('#fCat'),'카테고리',uniq(all.map(i=>i.category)),filt.cat);
+  fillSelect($('#fWho'),'받는 사람',uniq(all.map(i=>i.recipient)),filt.who);
+  fillSelect($('#fShop'),'살 곳',uniq(all.map(i=>i.shop)),filt.shop);
+  const list=all.filter(i=>{
+    if(filt.onlyLeft&&i.bought)return false;
+    if(filt.cat&&i.category!==filt.cat)return false;
+    if(filt.who&&i.recipient!==filt.who)return false;
+    if(filt.shop&&i.shop!==filt.shop)return false;
+    if(filt.q&&![i.name,i.memo,i.shop,i.recipient,i.category].join(' ').toLowerCase().includes(filt.q))return false;
+    return true}).sort((a,b)=>(+!!a.bought - +!!b.bought)||((a.priority||2)-(b.priority||2))||(a.createdAt-b.createdAt));
+  if(!all.length){$('#list').innerHTML=`<div class="empty">아직 품목이 없어요.<br><b>＋</b> 버튼으로 살 물건을 추가해 보세요.</div>`;return}
+  if(!list.length){$('#list').innerHTML=`<div class="empty">조건에 맞는 품목이 없어요.</div>`;return}
+  $('#list').innerHTML=list.map(i=>{const q=num(i.qty)||1,e=num(i.est),a=num(i.actual),p=[];
+    if(e!=null)p.push(`예상 ${money(e*q,t)}`);if(i.bought&&a!=null)p.push(`<b>실제 ${money(a*q,t)}</b>`);
+    const meta=[i.category,i.recipient&&('🎁 '+i.recipient),i.shop&&('📍 '+i.shop)].filter(Boolean).map(esc).join(' · ');
+    return `<div class="item${i.bought?' done':''}">
+      <button class="check" data-act="toggle" data-id="${i.id}" aria-label="구매 체크">✓</button>
+      <div class="info" data-act="editItem" data-id="${i.id}">
+        <div class="name">${esc(i.name)}${q>1?` <span class="qty">×${q}</span>`:''} <span class="pri p${i.priority||2}">${PRI[i.priority||2]}</span>${i.taxFree?' <span class="tf">면세</span>':''}</div>
+        ${meta?`<div class="meta">${meta}</div>`:''}
+        ${p.length?`<div class="price">${p.join('<br>')}</div>`:''}
+        ${i.memo?`<div class="meta memo">📝 ${esc(i.memo)}</div>`:''}</div>
+      ${i.photo?`<img class="thumb" src="${i.photo}" data-act="editItem" data-id="${i.id}" alt="">`:''}</div>`}).join('')}
+async function toggle(id){const i=items.find(x=>x.id===id);i.bought=!i.bought;
+  if(i.bought){i.boughtAt=Date.now();if(num(i.actual)==null&&num(i.est)!=null){i.actual=i.est;toast('실제 가격은 예상가로 넣어뒀어요. 탭해서 수정 가능')}}
+  await put('items',i);updateTrip()}
+
+/* ---------- 아래에서 올라오는 창 ---------- */
+const sheet=$('#sheet');let skipPop=false;
+function openSheet(html){$('#sheetBody').innerHTML=html;if(!sheet.open){sheet.showModal();history.pushState({sheet:true},'')}
+  const s=$('#sheetBody .sheet');if(s)s.scrollTop=0}
+const closeSheet=()=>sheet.close();
+sheet.addEventListener('close',()=>{if(history.state&&history.state.sheet){skipPop=true;history.back()}});
+sheet.addEventListener('click',e=>{if(e.target===sheet)closeSheet()});
+window.addEventListener('popstate',()=>{if(skipPop){skipPop=false;return}
+  if(sheet.open){sheet.close();return}if(view.name==='trip')renderTrips()});
+function refresh(){if(view.name==='trip'){const t=trips.find(x=>x.id===view.id);if(t){$('#title').textContent=t.name;updateTrip()}else renderTrips()}else renderTrips()}
+
+/* ---------- 여행 만들기/수정 ---------- */
+function tripForm(id){
+  const t=id?trips.find(x=>x.id===id):{name:'',place:'',start:'',end:'',currency:'',rate:''};
+  openSheet(`<form id="tripF" class="sheet"><h2 tabindex="-1" autofocus>${id?'여행 수정':'새 여행'}</h2>
+    <label class="f">여행 이름 *<input name="name" required value="${esc(t.name)}" placeholder="예: 봄 도쿄 여행"></label>
+    <label class="f">국가 / 도시<input name="place" value="${esc(t.place)}" placeholder="예: 일본 도쿄"></label>
+    <div class="two"><label class="f">출발일<input type="date" name="start" value="${esc(t.start)}"></label>
+      <label class="f">돌아오는 날<input type="date" name="end" value="${esc(t.end)}"></label></div>
+    <label class="f">현지 통화<input name="currency" list="curList" value="${esc(t.currency)}" placeholder="예: JPY, USD, EUR"></label>
+    <datalist id="curList">${CURS.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join('')}</datalist>
+    <label class="f">환율: 현지 돈 1 = 몇 원?<input name="rate" inputmode="decimal" value="${esc(t.rate)}" placeholder="예: 1엔이 9.2원이면 9.2"></label>
+    <div class="note">출발 전에 은행 앱 등에서 환율을 확인해서 넣어 주세요. 여행 중에도 언제든 바꿀 수 있어요.</div>
+    <div class="actions"><button type="button" class="btn" data-act="close">취소</button><button class="btn primary">저장</button></div>
+    ${id?`<div class="actions"><button type="button" class="btn danger" data-act="delTrip" data-id="${id}">이 여행 삭제</button></div>`:''}</form>`);
+  $('#tripF').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);
+    const obj=Object.assign(id?trips.find(x=>x.id===id):{id:uid(),createdAt:Date.now()},{
+      name:f.get('name').trim(),place:f.get('place').trim(),start:f.get('start'),end:f.get('end'),
+      currency:f.get('currency').trim().toUpperCase(),rate:clean(f.get('rate'))});
+    if(!id)trips.push(obj);await put('trips',obj);closeSheet();refresh();toast(id?'저장했어요':'여행을 만들었어요')}}
+async function delTrip(id){const t=trips.find(x=>x.id===id),list=tripItems(id);
+  if(!confirm(`'${t.name}' 여행과 품목 ${list.length}개를 모두 지울까요?\n되돌릴 수 없어요.`))return;
+  await remove('trips',id);for(const i of list)await remove('items',i.id);
+  trips=trips.filter(x=>x.id!==id);items=items.filter(x=>x.tripId!==id);closeSheet();renderTrips();toast('삭제했어요')}
+async function copyTrip(id){const src=trips.find(x=>x.id===id),now=Date.now();
+  const nt={...src,id:uid(),name:src.name+' (복사)',start:'',end:'',createdAt:now};
+  const copies=tripItems(id).sort((a,b)=>a.createdAt-b.createdAt).map((i,n)=>({...i,id:uid()+n,tripId:nt.id,bought:false,actual:'',boughtAt:null,createdAt:now+n}));
+  await put('trips',nt);await putMany('items',copies);trips.push(nt);items.push(...copies);renderTrips();
+  toast('복사했어요. [수정]에서 이름·날짜를 바꿔 주세요')}
+
+/* ---------- 품목 추가/수정 ---------- */
+function itemForm(id,savedName){
+  const t=trips.find(x=>x.id===view.id);
+  const i=id?items.find(x=>x.id===id):{name:'',category:'',recipient:'나',qty:1,shop:'',priority:2,est:'',actual:'',memo:'',photo:'',taxFree:false,bought:false};
+  let photo=i.photo||'';const wasBought=!!i.bought;
+  const cats=[...settings.categories];if(i.category&&!cats.includes(i.category))cats.push(i.category);
+  const who=uniq(['나','가족','친구',...items.map(x=>x.recipient)]),shops=uniq(items.map(x=>x.shop)),cur=esc(t.currency||'현지 돈');
+  openSheet(`<form id="itemF" class="sheet"><h2 tabindex="-1" autofocus>${id?'품목 수정':'품목 추가'}</h2>
+    ${savedName?`<div class="saved">✓ '${esc(savedName)}' 저장했어요. 다음 품목을 입력하세요.</div>`:''}
+    <label class="f">품목명 *<input name="name" required value="${esc(i.name)}" placeholder="예: 동전파스"></label>
+    <label class="f">카테고리<select name="category">${cats.map(c=>`<option value="${esc(c)}"${c===i.category?' selected':''}>${esc(c)}</option>`).join('')}<option value="__new">+ 새 카테고리 만들기</option></select></label>
+    <div class="two"><label class="f">받는 사람<input name="recipient" list="whoList" value="${esc(i.recipient)}"></label>
+      <label class="f">수량<input name="qty" type="number" inputmode="numeric" min="1" value="${esc(i.qty||1)}"></label></div>
+    <datalist id="whoList">${who.map(v=>`<option value="${esc(v)}">`).join('')}</datalist>
+    <label class="f">살 곳 (가게·지역)<input name="shop" list="shopList" value="${esc(i.shop)}" placeholder="예: 돈키호테 신주쿠점"></label>
+    <datalist id="shopList">${shops.map(v=>`<option value="${esc(v)}">`).join('')}</datalist>
+    <div class="f">우선순위</div>
+    <div class="seg">${[1,2,3].map(p=>`<label><input type="radio" name="priority" value="${p}"${(i.priority||2)==p?' checked':''}><span>${PRI[p]}</span></label>`).join('')}</div>
+    <div class="two"><label class="f">예상 가격 (1개, ${cur})<input name="est" inputmode="decimal" value="${esc(i.est)}"><div class="krw" id="estK"></div></label>
+      <label class="f">실제 가격 (1개, ${cur})<input name="actual" inputmode="decimal" value="${esc(i.actual)}"><div class="krw" id="actK"></div></label></div>
+    <label class="checkline"><input type="checkbox" name="taxFree"${i.taxFree?' checked':''}> 면세·택스리프리 대상</label>
+    <label class="checkline"><input type="checkbox" name="bought"${i.bought?' checked':''}> 구매 완료</label>
+    <label class="f">메모<textarea name="memo" rows="3">${esc(i.memo)}</textarea></label>
+    <div class="f">사진</div><div id="photoBox"></div>
+    <div class="row" style="margin-top:8px"><label class="btn" style="flex:1">📷 사진 선택<input type="file" accept="image/*" id="photoIn" hidden></label>
+      <button type="button" class="btn" id="photoDel" style="flex:1">사진 빼기</button></div>
+    <div class="actions"><button type="button" class="btn" data-act="close">취소</button><button class="btn primary" value="save">저장</button></div>
+    ${id?`<div class="actions"><button type="button" class="btn danger" data-act="delItem" data-id="${id}">이 품목 삭제</button></div>`
+        :`<div class="actions"><button class="btn" value="more">저장하고 하나 더 추가</button></div>`}</form>`);
+  const F=$('#itemF'),g=n=>F.elements.namedItem(n);
+  const showK=()=>{const r=num(t.rate),q=parseInt(g('qty').value)||1;
+    [['est','#estK'],['actual','#actK']].forEach(([n,el])=>{const v=num(clean(g(n).value));
+      $(el).textContent=(v!=null&&r)?`≈ ${won(v*r)}`+(q>1?` (×${q} = ${won(v*q*r)})`:''):''})};
+  g('est').oninput=g('actual').oninput=g('qty').oninput=showK;showK();
+  let prevCat=g('category').value;
+  g('category').onchange=e=>{const s=e.target;if(s.value!=='__new'){prevCat=s.value;return}
+    const n=(prompt('새 카테고리 이름')||'').trim();if(!n){s.value=prevCat;return}
+    if(!settings.categories.includes(n)){settings.categories.push(n);saveSettings()}
+    if(![...s.options].some(o=>o.value===n))s.add(new Option(n,n),s.options[s.options.length-1]);s.value=prevCat=n};
+  const renderPhoto=()=>{$('#photoBox').innerHTML=photo?`<img class="photo-prev" src="${photo}" alt="">`:'<div class="note">사진 없음</div>';$('#photoDel').hidden=!photo};
+  renderPhoto();
+  $('#photoIn').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{photo=await shrink(f);renderPhoto()}catch{alert('사진을 불러오지 못했어요')}};
+  $('#photoDel').onclick=()=>{photo='';renderPhoto()};
+  F.onsubmit=async e=>{e.preventDefault();
+    const obj=id?i:{id:uid(),tripId:t.id,createdAt:Date.now()};
+    Object.assign(obj,{name:g('name').value.trim(),category:g('category').value==='__new'?'기타':g('category').value,
+      recipient:g('recipient').value.trim(),qty:Math.max(1,parseInt(g('qty').value)||1),shop:g('shop').value.trim(),
+      priority:+g('priority').value,est:clean(g('est').value),actual:clean(g('actual').value),
+      taxFree:g('taxFree').checked,bought:g('bought').checked,memo:g('memo').value.trim(),photo});
+    if(obj.bought&&!wasBought)obj.boughtAt=Date.now();
+    if(!id)items.push(obj);await put('items',obj);updateTrip();
+    if(e.submitter&&e.submitter.value==='more'){itemForm(null,obj.name);return}
+    closeSheet();toast(id?'저장했어요':'추가했어요')}}
+async function delItem(id){const i=items.find(x=>x.id===id);if(!confirm(`'${i.name}'을(를) 삭제할까요?`))return;
+  await remove('items',id);items=items.filter(x=>x.id!==id);closeSheet();updateTrip();toast('삭제했어요')}
+function shrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),img=new Image();
+  img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),w=Math.round(img.width*s),h=Math.round(img.height*s);
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',0.75))};
+  img.onerror=()=>{URL.revokeObjectURL(url);rej()};img.src=url})}
+
+/* ---------- 설정 · 백업 ---------- */
+function settingsSheet(){
+  const last=settings.lastBackup?new Date(settings.lastBackup).toLocaleString('ko-KR'):'아직 없음';
+  openSheet(`<div class="sheet"><h2 tabindex="-1" autofocus>설정</h2>
+    <div class="section">입국 면세한도</div>
+    <label class="f">한도 금액 (원 단위)<input id="limitIn" inputmode="numeric" value="${esc(settings.dutyLimit)}" placeholder="비워두면 경고 안 함"></label>
+    <div class="note">면세한도는 보통 달러로 정해져 있어요. 출발 전 관세청 안내에서 한도를 확인하고 원화로 바꿔 넣어 주세요. 여행에서 실제 쓴 돈이 이 금액을 넘으면 빨간 경고가 떠요.</div>
+    <button class="btn primary" id="limitSave" style="width:100%;margin-top:8px">한도 저장</button>
+    <div class="section">카테고리</div><div id="catBox"></div>
+    <div class="row" style="margin-top:10px"><input id="catIn" placeholder="새 카테고리" style="flex:1"><button class="btn" id="catAdd">추가</button></div>
+    <div class="section">백업</div>
+    <div class="note">기록은 이 폰 안에만 저장돼요. 가끔 내보내서 구글 드라이브에 보관하세요.<br>마지막 백업: <b>${esc(last)}</b></div>
+    <div class="row" style="margin-top:10px"><button class="btn primary" id="expBtn" style="flex:1">📤 내보내기</button>
+      <label class="btn" style="flex:1">📥 불러오기<input type="file" id="impIn" hidden></label></div>
+    <div class="actions"><button class="btn" data-act="close">닫기</button></div></div>`);
+  const drawCats=()=>{$('#catBox').innerHTML=settings.categories.map(c=>`<span class="cat-chip">${esc(c)}<button data-cat="${esc(c)}" aria-label="삭제">×</button></span>`).join('')};drawCats();
+  $('#catBox').onclick=async e=>{const b=e.target.closest('[data-cat]');if(!b)return;settings.categories=settings.categories.filter(c=>c!==b.dataset.cat);await saveSettings();drawCats()};
+  $('#catAdd').onclick=async()=>{const v=$('#catIn').value.trim();if(!v||settings.categories.includes(v))return;settings.categories.push(v);await saveSettings();$('#catIn').value='';drawCats()};
+  $('#limitSave').onclick=async()=>{settings.dutyLimit=clean($('#limitIn').value);await saveSettings();refresh();alert('저장했어요')};
+  $('#expBtn').onclick=exportData;
+  $('#impIn').onchange=e=>{const f=e.target.files[0];if(f)importFile(f);e.target.value=''}}
+async function exportData(){
+  const data={app:'travel-shopping',version:1,exportedAt:new Date().toISOString(),trips,items,settings};
+  const name=`여행쇼핑_백업_${ymd()}.json`,blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+  let done=false;
+  try{const file=new File([blob],name,{type:'application/json'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});done=true}}
+  catch(e){if(e.name==='AbortError')return}
+  if(!done){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+  settings.lastBackup=Date.now();await saveSettings();
+  alert(done?'백업 파일을 보냈어요.':'백업 파일을 "다운로드" 폴더에 저장했어요.\n구글 드라이브 앱에서 업로드해 두세요.')}
+async function importFile(f){
+  try{const d=JSON.parse(await f.text());if(!Array.isArray(d.trips)||!Array.isArray(d.items))throw 0;
+    if(!confirm(`백업 파일: 여행 ${d.trips.length}개, 품목 ${d.items.length}개\n\n지금 앱에 있는 기록은 지워지고 이 내용으로 바뀌어요. 계속할까요?`))return;
+    await clearStore('trips');await clearStore('items');await putMany('trips',d.trips);await putMany('items',d.items);
+    if(d.settings){settings=Object.assign({},settings,d.settings,{key:'main'});await saveSettings()}
+    trips=d.trips;items=d.items;closeSheet();renderTrips();toast('불러오기 완료!')}
+  catch(e){alert('백업 파일을 읽지 못했어요.\n이 앱에서 내보낸 JSON 파일인지 확인해 주세요.')}}
+
+/* ---------- 버튼 연결 & 시작 ---------- */
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const{act,id}=el.dataset;
+  ({open:()=>openTrip(id),editTrip:()=>tripForm(id),copyTrip:()=>copyTrip(id),toggle:()=>toggle(id),
+    editItem:()=>itemForm(id),close:closeSheet,delTrip:()=>delTrip(id),delItem:()=>delItem(id)})[act]?.()});
+$('#backBtn').onclick=()=>history.back();
+$('#settingsBtn').onclick=settingsSheet;
+$('#fab').onclick=()=>view.name==='trips'?tripForm():itemForm();
+(async()=>{history.replaceState({},'');
+  try{db=await openDB();await loadAll()}catch(e){$('#main').innerHTML='<div class="empty">저장공간을 열 수 없어요.<br>크롬 일반 창에서 열어 주세요.</div>';return}
+  renderTrips();
+  if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js')})();
+</script>
+</body>
+</html>
