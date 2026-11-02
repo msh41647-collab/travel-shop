@@ -9,95 +9,180 @@
 <link rel="icon" href="icon.svg">
 <title>여행 쇼핑 체크리스트</title>
 <style>
-:root{--bg:#f5f6f8;--card:#fff;--text:#1d2330;--sub:#6b7280;--line:#e3e6ea;--blue:#2f6fed;--blue-soft:#e8f0fe;--red:#d93025;--red-soft:#fdecea;--green:#1e8e3e}
+:root{--bg:#fff;--box:#f3f4f6;--line:#eceef1;--line2:#d9dce1;--text:#111827;--sub:#6b7280;--muted:#a0a6b0;--pri:#111827;--red:#d92d20;--red-bg:#fdecec;--acc:#2f6fed;--acc-bg:#e8f0fe}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans KR",Roboto,-apple-system,sans-serif;font-size:17px}
-button{font:inherit;cursor:pointer}
-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:6px;padding:10px 10px;background:#fff;border-bottom:1px solid var(--line)}
-header h1{flex:1;font-size:20px;margin:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.icon-btn{width:46px;height:46px;border:none;background:transparent;font-size:26px;border-radius:12px;color:var(--text)}
-main{padding:12px 12px 120px}
-.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.fab{position:fixed;right:20px;bottom:calc(22px + env(safe-area-inset-bottom));width:66px;height:66px;border-radius:50%;border:none;background:var(--blue);color:#fff;font-size:36px;line-height:1;box-shadow:0 4px 14px rgba(47,111,237,.45);z-index:6}
-.btn{min-height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:16px;color:var(--text);display:inline-flex;align-items:center;justify-content:center}
-.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
-.btn.danger{color:var(--red);border-color:#f3c3be;width:100%}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.trip-name{font-size:19px;font-weight:700}
-.sub{color:var(--sub);font-size:14px;margin-top:4px}
-.sub-inline{color:var(--sub);font-size:13px;font-weight:400}
-.bar{height:8px;background:var(--line);border-radius:4px;margin:10px 0 4px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--green)}
-.big{font-size:21px;font-weight:700}
-.sumgrid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin-top:10px;font-size:15px}
-.sumgrid b{text-align:right}
-.warn{background:var(--red-soft);color:var(--red);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:700;font-size:15px}
-.hint{background:var(--blue-soft);color:#1a4fb8;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}
-.linkbtn{border:none;background:none;color:var(--blue);text-decoration:underline;padding:0;font-size:inherit;font-weight:700}
-input,select,textarea{font:inherit;font-size:16px;width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text)}
-textarea{min-height:80px;resize:vertical}
-.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
-.filters select{font-size:14px;padding:6px 8px;min-height:44px}
-.checkline{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:16px}
-.checkline input{width:24px;height:24px;min-height:0;margin:0}
-.controls{margin-bottom:12px}
-.item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.check{flex:none;width:50px;height:50px;border-radius:50%;border:2px solid #c3c8d0;background:#fff;font-size:26px;color:transparent}
-.item.done{opacity:.5}
-.item.done .check{background:var(--green);border-color:var(--green);color:#fff}
-.item.done .name{text-decoration:line-through}
-.info{flex:1;min-width:0}
-.name{font-weight:700;font-size:17px;word-break:break-all}
-.qty{color:var(--blue)}
-.meta{color:var(--sub);font-size:13px;margin-top:3px}
-.memo{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{font-size:14px;margin-top:4px}
-.thumb{width:54px;height:54px;border-radius:10px;object-fit:cover;flex:none}
-.pri,.tf{font-size:12px;padding:2px 7px;border-radius:999px;font-weight:700;vertical-align:middle;white-space:nowrap}
-.p1{background:#fde8e8;color:#c5221f}.p2{background:#e8f0fe;color:#1a56c4}.p3{background:#eef0f3;color:#6b7280}
-.tf{background:#e6f4ea;color:#1e7e34}
-.empty{text-align:center;color:var(--sub);padding:48px 16px;line-height:1.7}
-dialog{border:none;padding:0;width:100%;max-width:560px;margin:auto auto 0;border-radius:20px 20px 0 0;max-height:92vh;background:#fff;color:var(--text)}
-dialog::backdrop{background:rgba(0,0,0,.35)}
-.sheet{padding:18px 16px calc(24px + env(safe-area-inset-bottom));overflow-y:auto;max-height:92vh}
-.sheet h2{margin:0 0 6px;font-size:20px;outline:none}
-.f{display:block;margin-top:14px;font-size:14px;color:var(--sub)}
-.f input,.f select,.f textarea{margin-top:4px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.seg{display:flex;gap:6px;margin-top:4px}.seg label{flex:1}.seg input{display:none}
-.seg span{display:flex;align-items:center;justify-content:center;min-height:46px;border:1px solid var(--line);border-radius:12px;font-size:15px}
-.seg input:checked+span{background:var(--blue);color:#fff;border-color:var(--blue)}
-.krw{font-size:13px;color:var(--blue);margin-top:4px;min-height:1em}
-.note{font-size:13px;color:var(--sub);margin-top:6px;line-height:1.5}
-.saved{background:#e6f4ea;color:#1e7e34;border-radius:10px;padding:8px 12px;font-size:14px;margin-top:6px}
-.photo-prev{max-width:100%;max-height:220px;border-radius:12px;margin-top:8px;display:block}
-.actions{display:flex;gap:8px;margin-top:20px}.actions .btn{flex:1}
-.section{font-size:15px;font-weight:700;margin:24px 0 4px}
-.cat-chip{display:inline-flex;align-items:center;padding:4px 4px 4px 12px;border-radius:999px;background:#eef0f3;margin:6px 6px 0 0;font-size:15px}
-.cat-chip button{border:none;background:transparent;font-size:18px;width:32px;height:32px;color:var(--sub)}
-#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#323232;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20;max-width:90%;text-align:center}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Noto Sans KR",Roboto,sans-serif;font-size:13px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;padding:0}
+.ic{display:block;flex:none}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:6px;height:52px;padding:0 8px 0 16px;background:#fff;border-bottom:1px solid var(--line)}
+header.has-back{padding-left:2px}
+.h-title{flex:1;margin:0;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h-title.big{font-size:19px}
+.icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+.icon-btn.mu{color:var(--sub)}
+.rate{font-size:11px;color:var(--sub);border:1px solid var(--line2);border-radius:6px;padding:4px 8px;white-space:nowrap;margin-right:6px}
+main{padding:14px 16px 110px;max-width:640px;margin:0 auto}
+.mu{color:var(--sub)}.xs{font-size:11px}
+.sec{display:flex;align-items:center;justify-content:space-between;width:100%;font-size:12px;color:var(--sub);margin:18px 0 6px;text-align:left}
+.sec.first{margin-top:0}
+.chip{display:inline-flex;align-items:center;gap:2px;font-size:12px;padding:4px 11px;border-radius:999px;white-space:nowrap;line-height:1.3;flex:none}
+.chip.sm{font-size:10.5px;padding:1px 7px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:0 14px;border-radius:6px;border:1px solid var(--line2);background:#fff;font-size:13px}
+.btn.sm{min-height:34px;font-size:12px;padding:0 10px}
+.btn.primary{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.block{width:100%;margin-top:14px}
+.link-danger{display:block;width:100%;text-align:center;color:var(--red);font-size:13px;padding:16px 0 4px}
+.bar{height:4px;background:var(--box);border-radius:2px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri)}
+.bar.over>i{background:var(--red)}
+.meta{font-size:11.5px;color:var(--sub)}
+.grow{flex:1;min-width:0;display:block}
+.empty{text-align:center;color:var(--sub);padding:44px 12px;line-height:1.7}
+/* 여행 목록 */
+.tcard{border:1px solid var(--line2);border-radius:6px;padding:14px;margin-bottom:10px;cursor:pointer}
+.tc-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tc-name{font-size:15px;font-weight:600}
+.dday{background:var(--acc-bg);color:var(--acc)}
+.tcard .meta{margin:2px 0 12px}
+.tc-foot{display:flex;justify-content:space-between;font-size:12px;margin-top:6px}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.tc-btns{display:flex;gap:6px;margin-top:12px}.tc-btns .btn{flex:1}
+.prow{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.prow:last-child{border-bottom:none}
+.pname{font-weight:600;font-size:14px}
+/* 요약 */
+.sum2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.box{background:var(--box);border-radius:6px;padding:9px 11px}
+.num{font-size:17px;font-weight:600;margin-top:1px}
+.duty{display:flex;justify-content:space-between;font-size:11.5px;color:var(--sub);margin:12px 0 4px}
+.warn{background:var(--red-bg);color:var(--red);border-radius:6px;padding:8px 10px;margin-top:8px;font-size:12px;font-weight:600}
+.hint{background:var(--box);border-radius:6px;padding:8px 10px;margin-top:10px;font-size:12px;color:var(--sub)}
+.hint button{color:var(--acc);font-weight:600;text-decoration:underline}
+/* 도구줄 */
+.toolbar{display:flex;align-items:center;gap:6px;margin-top:14px}
+.chips-scroll{display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding:2px 0}
+.chips-scroll::-webkit-scrollbar{display:none}
+.chip.all{background:var(--box);color:var(--text)}
+.chip.all.on{background:var(--pri);color:#fff}
+.seg2{display:flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden;flex:none}
+.seg2 button{width:34px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--sub)}
+.seg2 button.on{background:var(--pri);color:#fff}
+.sbtn{width:34px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--sub);border-radius:6px;flex:none}
+.sbtn.on{background:var(--box);color:var(--text)}
+.search{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.search input{grid-column:1/-1}
+/* 입력 */
+input,select,textarea{font:inherit;font-size:14px;width:100%;min-height:40px;padding:8px 10px;border:1px solid var(--line2);border-radius:6px;background:#fff;color:var(--text)}
+select{font-size:12.5px}
+textarea{min-height:60px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri)}
+/* 리스트 보기 */
+.lrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.thumb{width:58px;height:58px;border-radius:6px;background:var(--box);color:var(--muted);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;cursor:pointer}
+.thumb img,.gimg img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.s{width:38px;height:38px}
+.linfo{flex:1;min-width:0;cursor:pointer}
+.lname{font-size:14px;font-weight:600;word-break:break-all}
+.lname .n{font-weight:400;color:var(--sub)}
+.lmeta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11.5px;color:var(--sub);margin:3px 0}
+.lprice{font-size:12.5px}.lprice b{font-weight:600}.lprice .mu{font-size:11.5px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);vertical-align:3px;margin-left:5px}
+.ck{width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex:none;margin-right:-9px}
+.ck span{width:24px;height:24px;border-radius:50%;border:1.5px solid #c4c8cf;display:flex;align-items:center;justify-content:center;background:#fff;color:#fff}
+.ck.on span{background:var(--pri);border-color:var(--pri)}
+.lrow.done .lname{text-decoration:line-through;font-weight:500;color:var(--muted)}
+.lrow.done .thumb{opacity:.6}
+.lrow.done .small{font-size:12px;color:var(--muted)}
+/* 그리드 보기 */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px}
+.gimg{position:relative;aspect-ratio:1;border-radius:6px;background:var(--box);color:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+.gimg .ck{position:absolute;top:0;right:0;margin:0}
+.gimg .chip{position:absolute;left:6px;bottom:6px}
+.gname{font-size:13px;font-weight:600;margin-top:6px;word-break:break-all;cursor:pointer}
+.gprice{font-size:12px}.gprice .mu{font-size:11px}
+.gcard.done{opacity:.5}.gcard.done .gname{text-decoration:line-through}
+/* + 버튼 */
+.fab{position:fixed;right:18px;bottom:calc(20px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(17,24,39,.25);z-index:6}
+/* 아래에서 올라오는 창 */
+dialog{border:none;padding:0;width:100%;max-width:640px;margin:auto auto 0;border-radius:12px 12px 0 0;max-height:94vh;background:#fff;color:var(--text)}
+dialog::backdrop{background:rgba(17,24,39,.35)}
+.sheet{padding:0 16px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;max-height:94vh}
+.sh-head{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;padding:10px 0 6px;z-index:2;margin-right:-8px}
+.sh-head h2{margin:0;font-size:16px;font-weight:600;outline:none}
+.fl{display:block;font-size:11.5px;color:var(--sub);margin:12px 0 4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.two.wide{grid-template-columns:2fr 1fr}
+.seg{display:flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.seg label{flex:1}.seg label+label{border-left:1px solid var(--line2)}
+.seg input{display:none}
+.seg span{display:flex;align-items:center;justify-content:center;height:38px;font-size:13px;cursor:pointer}
+.seg input:checked+span{background:var(--pri);color:#fff}
+.krw{font-size:11.5px;color:var(--acc);margin-top:3px;min-height:1em}
+.checks{display:flex;gap:18px;margin-top:14px}
+.checks label{display:flex;align-items:center;gap:7px;font-size:13px}
+.checks input{width:18px;height:18px;min-height:0;margin:0;accent-color:var(--pri)}
+.photo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:160px;border-radius:6px;background:var(--box);color:var(--sub);overflow:hidden;font-size:12px;cursor:pointer;margin-top:4px}
+.photo img{width:100%;height:100%;object-fit:contain}
+.photo-actions{display:flex;justify-content:flex-end;gap:14px;margin-top:6px;font-size:12px;min-height:4px}
+.photo-actions button,.photo-actions label{color:var(--sub);text-decoration:underline;cursor:pointer}
+.pick{display:flex;gap:6px;flex-wrap:wrap}
+.chip.add{border:1px dashed var(--line2);background:#fff;color:var(--sub)}
+.chip.cur{background:#fff;border:1px solid var(--line2);color:var(--text)}
+.chip.cur.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.actions{display:flex;gap:8px;margin-top:18px}.actions .btn{flex:1}
+.note{font-size:11.5px;color:var(--sub);margin-top:5px;line-height:1.5}
+.saved{background:var(--box);border-radius:6px;padding:7px 10px;font-size:12px;margin-bottom:6px}
+.st{font-size:13px;font-weight:600;margin:22px 0 6px}.st.first{margin-top:6px}
+.inrow{display:flex;gap:6px}.inrow input{flex:1}
+.cat-del{padding-right:4px}
+.cat-del button{width:20px;height:20px;display:flex;align-items:center;justify-content:center;opacity:.7}
+.menu-row{display:flex;align-items:center;gap:12px;width:100%;padding:12px 0;border-bottom:1px solid var(--line);text-align:left;font-size:14px;cursor:pointer}
+.menu-row.last{border-bottom:none}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--pri);color:#fff;padding:9px 14px;border-radius:6px;font-size:12.5px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20;max-width:90%;text-align:center}
 #toast.show{opacity:1}
 </style>
 </head>
 <body>
-<header>
-  <button id="backBtn" class="icon-btn" hidden aria-label="뒤로">‹</button>
-  <h1 id="title">여행 쇼핑 체크리스트</h1>
-  <button id="settingsBtn" class="icon-btn" aria-label="설정">⚙️</button>
-</header>
+<header id="hdr"></header>
 <main id="main"></main>
-<button id="fab" class="fab" aria-label="추가">＋</button>
+<button id="fab" class="fab" data-act="newItem" aria-label="품목 추가" hidden></button>
 <dialog id="sheet"><div id="sheetBody"></div></dialog>
 <div id="toast"></div>
 
 <script>
-const DEFAULT_CATS=['화장품','간식','약','옷','기념품','전자제품','기타'];
+/* ---------- 기본값 ---------- */
+const DEFAULT_CATS=['약','간식','화장품','옷','기념품','전자제품','기타'];
 const PRI={1:'꼭',2:'있으면',3:'구경만'};
-const CURS=[['JPY','일본 엔'],['USD','미국 달러'],['EUR','유로'],['CNY','중국 위안'],['TWD','대만 달러'],['HKD','홍콩 달러'],['THB','태국 바트'],['VND','베트남 동'],['PHP','필리핀 페소'],['SGD','싱가포르 달러'],['MYR','말레이시아 링깃'],['GBP','영국 파운드'],['AUD','호주 달러'],['KRW','원화']];
-let db,trips=[],items=[];
-let settings={key:'main',categories:[...DEFAULT_CATS],dutyLimit:'',lastBackup:null};
-let view={name:'trips',id:null};
-let filt={q:'',cat:'',who:'',shop:'',onlyLeft:false};
+const CURS=[['JPY','일본 엔'],['USD','미국 달러'],['EUR','유로'],['THB','태국 바트'],['CNY','중국 위안'],['TWD','대만 달러'],['HKD','홍콩 달러'],['VND','베트남 동'],['PHP','필리핀 페소'],['SGD','싱가포르 달러'],['MYR','말레이시아 링깃'],['GBP','영국 파운드'],['AUD','호주 달러'],['KRW','원화']];
+const SYM={JPY:'¥',USD:'$',EUR:'€',GBP:'£',CNY:'CN¥',THB:'฿',VND:'₫',PHP:'₱',TWD:'NT$',HKD:'HK$',SGD:'S$',AUD:'A$',MYR:'RM'};
+const PAL={red:['#fdecec','#b42318','#d92d20'],yellow:['#fdf3d6','#8f5f00','#c99400'],pink:['#fce7f1','#b0306e','#d6407f'],blue:['#e7effd','#1d55c4','#2f6fed'],aqua:['#dff4f2','#0b766e','#0f9488'],violet:['#efe9fd','#6234c9','#7c4dea'],orange:['#fdeee2','#b4530f','#e46c12'],green:['#e6f4ea','#1e7d34','#2f9a48'],gray:['#eef0f3','#4b5563','#6b7280']};
+const CAT_COLOR={'약':'red','간식':'yellow','화장품':'pink','옷':'blue','기념품':'aqua','전자제품':'violet','기타':'gray'};
+const EXTRA=['orange','green','blue','aqua','violet','pink','red','yellow'];
 
+/* ---------- 아이콘 ---------- */
+const P={
+'chevron-left':'<polyline points="15 18 9 12 15 6"/>','chevron-right':'<polyline points="9 18 15 12 9 6"/>',
+'chevron-down':'<polyline points="6 9 12 15 18 9"/>','chevron-up':'<polyline points="18 15 12 9 6 15"/>',
+x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+check:'<polyline points="20 6 9 17 4 12"/>',
+search:'<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+list:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+sliders:'<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',
+download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>'};
+const ic=(n,s=20,w=2)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+
+/* ---------- 상태 ---------- */
+let db,trips=[],items=[];
+let settings={key:'main',categories:[...DEFAULT_CATS],dutyLimit:'',lastBackup:null,viewMode:'list',boughtOpen:true};
+let view={name:'trips',id:null};
+let filt={cat:'',q:'',who:'',shop:''},searchOpen=false;
+
+/* ---------- 도우미 ---------- */
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
@@ -105,9 +190,31 @@ const num=v=>{if(v===null||v===undefined||v==='')return null;const n=parseFloat(
 const fmt=n=>Number(n).toLocaleString('ko-KR',{maximumFractionDigits:2});
 const won=n=>Math.round(n).toLocaleString('ko-KR')+'원';
 const uniq=a=>[...new Set(a.filter(Boolean))].sort((x,y)=>x.localeCompare(y,'ko'));
-const clean=v=>String(v).trim().replace(/,/g,'');
+const clean=v=>String(v??'').trim().replace(/,/g,'');
+const qty=i=>Math.max(1,parseInt(i.qty)||1);
+const curTrip=()=>trips.find(x=>x.id===view.id);
+const tripItems=id=>items.filter(i=>i.tripId===id);
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2300)}
-function ymd(d=new Date()){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')}
+function todayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function catColor(c){let k=CAT_COLOR[c];if(!k){let h=0;for(const ch of String(c))h=(h*31+ch.charCodeAt(0))>>>0;k=EXTRA[h%EXTRA.length]}const p=PAL[k];return{bg:p[0],tx:p[1],solid:p[2]}}
+const catChip=(c,sm)=>{if(!c)return'';const k=catColor(c);return `<span class="chip${sm?' sm':''}" style="background:${k.bg};color:${k.tx}">${esc(c)}</span>`};
+const orderCats=list=>list.sort((a,b)=>{const ia=settings.categories.indexOf(a),ib=settings.categories.indexOf(b);return(ia<0?999:ia)-(ib<0?999:ib)||a.localeCompare(b,'ko')});
+const code=t=>(t.currency||'').toUpperCase();
+const isKRW=t=>code(t)==='KRW';
+const toKRW=(a,t)=>isKRW(t)?a:(num(t.rate)?a*num(t.rate):null);
+function local(a,t){const c=code(t);if(!c)return fmt(a);if(c==='KRW')return won(a);return SYM[c]?SYM[c]+fmt(a):fmt(a)+' '+esc(c)}
+const bigMoney=(a,t)=>toKRW(a,t)!=null?won(toKRW(a,t)):local(a,t);
+function priceLine(a,t){const k=toKRW(a,t);return `<b>${local(a,t)}</b>`+(!isKRW(t)&&k!=null?` <span class="mu">${won(k)}</span>`:'')}
+function rateLabel(t){const c=code(t);if(!c)return '여행 정보';if(c==='KRW')return '원화';const r=num(t.rate);if(!r)return '환율 입력';return `1${SYM[c]||(' '+c)} = ${fmt(r)}원`}
+function totals(t){const list=tripItems(t.id);let act=0,rest=0,left=0;
+  for(const i of list){const q=qty(i),e=num(i.est),a=num(i.actual);
+    if(i.bought){if(a!=null)act+=a*q;else if(e!=null)act+=e*q}else{left++;if(e!=null)rest+=e*q}}
+  return{count:list.length,left,act,rest}}
+function dday(t,today){if(!t.start)return'';const d=Math.round((new Date(t.start)-new Date(today))/864e5);
+  if(d>0)return 'D-'+d;if(d===0)return 'D-day';if((t.end||t.start)>=today)return '여행 중';return''}
+const isPast=(t,today)=>{const e=t.end||t.start;return !!e&&e<today};
+const thumb=(i,s)=>i.photo?`<img src="${i.photo}" alt="" loading="lazy">`:ic('image',s,1.6);
+const ckBtn=i=>`<button class="ck${i.bought?' on':''}" data-act="toggle" data-id="${i.id}" aria-label="${i.bought?'구매 취소':'구매 완료'}"><span>${i.bought?ic('check',14,3):''}</span></button>`;
 
 /* ---------- 저장(IndexedDB) ---------- */
 function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open('travel-shopping',1);
@@ -124,84 +231,100 @@ const saveSettings=()=>put('settings',settings);
 async function loadAll(){trips=await getAll('trips');items=await getAll('items');
   const m=(await getAll('settings')).find(x=>x.key==='main');if(m)settings=Object.assign({},settings,m)}
 
-/* ---------- 계산 ---------- */
-const tripItems=id=>items.filter(i=>i.tripId===id);
-function totals(t){let est=0,act=0,left=0;const list=tripItems(t.id);
-  for(const i of list){const q=num(i.qty)||1;if(num(i.est)!=null)est+=num(i.est)*q;
-    if(i.bought){if(num(i.actual)!=null)act+=num(i.actual)*q}else left++}
-  return{count:list.length,left,est,act}}
-const toKRW=(a,t)=>{const r=num(t.rate);return r?a*r:null};
-function money(a,t){const k=toKRW(a,t);return `${fmt(a)} ${esc(t.currency||'')}`+(k!=null?` <span class="sub-inline">≈ ${won(k)}</span>`:'')}
-const dateRange=t=>t.start&&t.end?`${t.start} ~ ${t.end}`:(t.start||'');
-
-/* ---------- 여행 목록 화면 ---------- */
+/* ---------- 화면: 여행 목록 ---------- */
+function setHeader(html,back){const h=$('#hdr');h.innerHTML=html;h.classList.toggle('has-back',!!back)}
 function renderTrips(){
-  view={name:'trips',id:null};$('#title').textContent='여행 쇼핑 체크리스트';$('#backBtn').hidden=true;
-  const list=[...trips].sort((a,b)=>(b.start||'').localeCompare(a.start||'')||b.createdAt-a.createdAt);
-  if(!list.length){$('#main').innerHTML=`<div class="empty">아직 만든 여행이 없어요.<br>오른쪽 아래 <b>＋</b> 버튼을 눌러<br>첫 여행을 만들어 보세요.</div>`;return}
-  $('#main').innerHTML=list.map(t=>{const s=totals(t);const pct=s.count?Math.round((s.count-s.left)/s.count*100):0;
-    return `<div class="card"><div data-act="open" data-id="${t.id}">
-      <div class="trip-name">${esc(t.name)}</div>
-      <div class="sub">${esc([t.place,dateRange(t),t.currency].filter(Boolean).join(' · '))}</div>
+  view={name:'trips',id:null};$('#fab').hidden=true;
+  setHeader(`<h1 class="h-title big">내 여행</h1><button class="icon-btn" data-act="settings" aria-label="설정">${ic('sliders',20)}</button>`);
+  const today=todayStr();
+  const up=trips.filter(t=>!isPast(t,today)).sort((a,b)=>(a.start||'9999').localeCompare(b.start||'9999')||b.createdAt-a.createdAt);
+  const past=trips.filter(t=>isPast(t,today)).sort((a,b)=>(b.start||'').localeCompare(a.start||''));
+  let h='';
+  if(!trips.length)h=`<div class="empty">아직 만든 여행이 없어요.<br>아래 버튼으로 첫 여행을 만들어 보세요.</div>`;
+  if(up.length)h+=`<div class="sec first">다가오는 여행</div>`+up.map(t=>{
+    const s=totals(t),bought=s.count-s.left,pct=s.count?bought/s.count*100:0,d=dday(t,today);
+    const cnt={};tripItems(t.id).forEach(i=>{if(i.category)cnt[i.category]=(cnt[i.category]||0)+1});
+    const chips=orderCats(Object.keys(cnt)).map(c=>{const k=catColor(c);return `<span class="chip sm" style="background:${k.bg};color:${k.tx}">${esc(c)} ${cnt[c]}</span>`}).join('');
+    const dates=t.start&&t.end?`${t.start.slice(5).replace('-','/')} ~ ${t.end.slice(5).replace('-','/')}`:(t.start||'');
+    return `<div class="tcard" data-act="open" data-id="${t.id}">
+      <div class="tc-top"><span class="tc-name">${esc(t.name)}</span>${d?`<span class="chip sm dday">${d}</span>`:''}</div>
+      <div class="meta">${esc([t.place,dates,code(t)].filter(Boolean).join(' · '))||'&nbsp;'}</div>
       <div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="sub">산 것 ${s.count-s.left} / 전체 ${s.count}개</div></div>
-      <div class="row" style="margin-top:12px">
-        <button class="btn primary" data-act="open" data-id="${t.id}">열기</button>
-        <button class="btn" data-act="copyTrip" data-id="${t.id}">목록 복사</button>
-        <button class="btn" data-act="editTrip" data-id="${t.id}">수정</button></div></div>`}).join('')}
+      <div class="tc-foot"><span class="mu">${bought} / ${s.count}개 구매</span><span>${bigMoney(s.act,t)}</span></div>
+      ${chips?`<div class="chips">${chips}</div>`:''}
+      <div class="tc-btns"><button class="btn sm" data-act="editTrip" data-id="${t.id}">수정</button><button class="btn sm" data-act="copyTrip" data-id="${t.id}">목록 복사</button></div></div>`}).join('');
+  if(past.length)h+=`<div class="sec${up.length?'':' first'}">지난 여행</div><div>`+past.map(t=>{const s=totals(t);
+    const ym=t.start?t.start.slice(0,7).replace('-','.'):'날짜 없음';
+    return `<div class="prow" data-act="open" data-id="${t.id}"><span class="grow"><span class="pname" style="display:block">${esc(t.name)}</span><span class="meta">${ym} · ${s.count}개 · ${bigMoney(s.act,t)}</span></span>
+      <button class="icon-btn mu" data-act="copyTrip" data-id="${t.id}" aria-label="목록 복사">${ic('copy',18)}</button></div>`}).join('')+`</div>`;
+  h+=`<button class="btn primary block" data-act="newTrip">${ic('plus',16)} 새 여행</button>`;
+  $('#main').innerHTML=h}
 
-/* ---------- 여행 안(품목) 화면 ---------- */
-function openTrip(id){
-  history.pushState({trip:id},'');view={name:'trip',id};filt={q:'',cat:'',who:'',shop:'',onlyLeft:false};
-  $('#title').textContent=trips.find(x=>x.id===id).name;$('#backBtn').hidden=false;
-  $('#main').innerHTML=`<div class="card" id="summary"></div>
-    <div class="controls"><input type="search" id="q" placeholder="🔍 품목 검색">
-      <div class="filters"><select id="fCat"></select><select id="fWho"></select><select id="fShop"></select></div>
-      <label class="checkline"><input type="checkbox" id="fLeft"> 안 산 것만 보기</label></div>
-    <div id="list"></div>`;
+/* ---------- 화면: 품목 목록 ---------- */
+function openTrip(id){history.pushState({trip:id},'');view={name:'trip',id};filt={cat:'',q:'',who:'',shop:''};searchOpen=false;drawTrip();window.scrollTo(0,0)}
+function tripHeader(t){setHeader(`<button class="icon-btn" data-act="back" aria-label="뒤로">${ic('chevron-left',24)}</button><h1 class="h-title">${esc(t.name)}</h1><button class="rate" data-act="editTrip" data-id="${t.id}">${rateLabel(t)}</button>`,true)}
+function drawTrip(){const t=curTrip();if(!t)return renderTrips();tripHeader(t);
+  $('#fab').hidden=false;$('#fab').innerHTML=ic('plus',24);
+  $('#main').innerHTML=`<div id="summary"></div><div class="toolbar" id="toolbar"></div><div id="searchPanel"></div><div id="list"></div>`;
+  updateTrip({search:true})}
+function renderSearch(all){const p=$('#searchPanel');if(!searchOpen){p.innerHTML='';return}
+  const opt=(vals,cur,label)=>`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}"${v===cur?' selected':''}>${esc(v)}</option>`).join('');
+  p.innerHTML=`<div class="search"><input type="search" id="q" placeholder="품목·메모 검색" value="${esc(filt.q)}">
+    <select id="fWho">${opt(uniq(all.map(i=>i.recipient)),filt.who,'받는 사람 전체')}</select>
+    <select id="fShop">${opt(uniq(all.map(i=>i.shop)),filt.shop,'살 곳 전체')}</select></div>`;
   $('#q').oninput=e=>{filt.q=e.target.value.trim().toLowerCase();updateTrip()};
-  $('#fCat').onchange=e=>{filt.cat=e.target.value;updateTrip()};
   $('#fWho').onchange=e=>{filt.who=e.target.value;updateTrip()};
-  $('#fShop').onchange=e=>{filt.shop=e.target.value;updateTrip()};
-  $('#fLeft').onchange=e=>{filt.onlyLeft=e.target.checked;updateTrip()};
-  updateTrip();window.scrollTo(0,0)}
-function fillSelect(sel,label,vals,cur){if(cur&&!vals.includes(cur))vals=[cur,...vals];
-  sel.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}"${v===cur?' selected':''}>${esc(v)}</option>`).join('')}
-function updateTrip(){
-  const t=trips.find(x=>x.id===view.id);if(!t)return renderTrips();
-  const all=tripItems(t.id),s=totals(t);
-  let h=`<div class="big">남은 품목 ${s.left}개 <span class="sub-inline">/ 전체 ${s.count}개</span></div>
-    <div class="sumgrid"><span>예상 총액</span><b>${money(s.est,t)}</b><span>실제 쓴 돈</span><b>${money(s.act,t)}</b></div>`;
-  if(!num(t.rate))h+=`<div class="hint">환율을 넣으면 원화로도 보여드려요. <button class="linkbtn" data-act="editTrip" data-id="${t.id}">환율 입력하기</button></div>`;
-  const actK=toKRW(s.act,t),lim=num(settings.dutyLimit);
-  if(lim&&actK!=null&&actK>lim)h+=`<div class="warn">⚠️ 면세한도(${won(lim)})를 ${won(actK-lim)} 넘었어요! 입국할 때 세관 신고가 필요할 수 있어요.</div>`;
-  else if(lim&&actK!=null&&actK>lim*0.8)h+=`<div class="hint">면세한도까지 ${won(lim-actK)} 남았어요.</div>`;
+  $('#fShop').onchange=e=>{filt.shop=e.target.value;updateTrip()}}
+function updateTrip(opt={}){
+  const t=curTrip();if(!t)return renderTrips();
+  const all=tripItems(t.id),s=totals(t),hasRate=toKRW(1,t)!=null;
+  const sub=a=>hasRate&&!isKRW(t)?`<div class="mu xs">${local(a,t)}</div>`:'';
+  let h=`<div class="sum2"><div class="box"><div class="mu xs">쓴 돈</div><div class="num">${bigMoney(s.act,t)}</div>${sub(s.act)}</div>
+    <div class="box"><div class="mu xs">남은 예상</div><div class="num">${bigMoney(s.rest,t)}</div>${sub(s.rest)}</div></div>`;
+  const lim=num(settings.dutyLimit),ak=toKRW(s.act,t);
+  if(lim&&ak!=null){const over=ak>lim;
+    h+=`<div class="duty"><span>면세한도</span><span>${Math.round(ak).toLocaleString('ko-KR')} / ${won(lim)}</span></div><div class="bar${over?' over':''}"><i style="width:${Math.min(100,ak/lim*100)}%"></i></div>`;
+    if(over)h+=`<div class="warn">면세한도를 ${won(ak-lim)} 넘었어요. 입국 때 세관 신고가 필요할 수 있어요.</div>`}
+  if(!hasRate)h+=`<div class="hint">환율을 넣으면 원화와 면세한도도 보여드려요. <button data-act="editTrip" data-id="${t.id}">환율 입력</button></div>`;
+  else if(!lim)h+=`<div class="hint">면세한도를 설정하면 여기서 함께 볼 수 있어요. <button data-act="settings">설정하기</button></div>`;
   $('#summary').innerHTML=h;
-  fillSelect($('#fCat'),'카테고리',uniq(all.map(i=>i.category)),filt.cat);
-  fillSelect($('#fWho'),'받는 사람',uniq(all.map(i=>i.recipient)),filt.who);
-  fillSelect($('#fShop'),'살 곳',uniq(all.map(i=>i.shop)),filt.shop);
-  const list=all.filter(i=>{
-    if(filt.onlyLeft&&i.bought)return false;
-    if(filt.cat&&i.category!==filt.cat)return false;
-    if(filt.who&&i.recipient!==filt.who)return false;
-    if(filt.shop&&i.shop!==filt.shop)return false;
-    if(filt.q&&![i.name,i.memo,i.shop,i.recipient,i.category].join(' ').toLowerCase().includes(filt.q))return false;
-    return true}).sort((a,b)=>(+!!a.bought - +!!b.bought)||((a.priority||2)-(b.priority||2))||(a.createdAt-b.createdAt));
-  if(!all.length){$('#list').innerHTML=`<div class="empty">아직 품목이 없어요.<br><b>＋</b> 버튼으로 살 물건을 추가해 보세요.</div>`;return}
-  if(!list.length){$('#list').innerHTML=`<div class="empty">조건에 맞는 품목이 없어요.</div>`;return}
-  $('#list').innerHTML=list.map(i=>{const q=num(i.qty)||1,e=num(i.est),a=num(i.actual),p=[];
-    if(e!=null)p.push(`예상 ${money(e*q,t)}`);if(i.bought&&a!=null)p.push(`<b>실제 ${money(a*q,t)}</b>`);
-    const meta=[i.category,i.recipient&&('🎁 '+i.recipient),i.shop&&('📍 '+i.shop)].filter(Boolean).map(esc).join(' · ');
-    return `<div class="item${i.bought?' done':''}">
-      <button class="check" data-act="toggle" data-id="${i.id}" aria-label="구매 체크">✓</button>
-      <div class="info" data-act="editItem" data-id="${i.id}">
-        <div class="name">${esc(i.name)}${q>1?` <span class="qty">×${q}</span>`:''} <span class="pri p${i.priority||2}">${PRI[i.priority||2]}</span>${i.taxFree?' <span class="tf">면세</span>':''}</div>
-        ${meta?`<div class="meta">${meta}</div>`:''}
-        ${p.length?`<div class="price">${p.join('<br>')}</div>`:''}
-        ${i.memo?`<div class="meta memo">📝 ${esc(i.memo)}</div>`:''}</div>
-      ${i.photo?`<img class="thumb" src="${i.photo}" data-act="editItem" data-id="${i.id}" alt="">`:''}</div>`}).join('')}
+
+  const cats=orderCats(uniq(all.map(i=>i.category)));if(filt.cat&&!cats.includes(filt.cat))filt.cat='';
+  const sc=$('.chips-scroll'),left0=sc?sc.scrollLeft:0;
+  $('#toolbar').innerHTML=`<div class="chips-scroll"><button class="chip all${filt.cat?'':' on'}" data-act="cat" data-cat="">전체</button>${cats.map(c=>{const k=catColor(c),on=filt.cat===c;
+      return `<button class="chip" data-act="cat" data-cat="${esc(c)}" style="background:${on?k.solid:k.bg};color:${on?'#fff':k.tx}">${esc(c)}</button>`}).join('')}</div>
+    <button class="sbtn${searchOpen?' on':''}" data-act="search" aria-label="검색">${ic('search',18)}</button>
+    <div class="seg2"><button class="${settings.viewMode!=='grid'?'on':''}" data-act="view" data-v="list" aria-label="리스트 보기">${ic('list',16)}</button><button class="${settings.viewMode==='grid'?'on':''}" data-act="view" data-v="grid" aria-label="그리드 보기">${ic('grid',15)}</button></div>`;
+  $('.chips-scroll').scrollLeft=left0;
+  if(opt.search)renderSearch(all);
+
+  if(!all.length){$('#list').innerHTML=`<div class="empty">아직 품목이 없어요.<br>오른쪽 아래 <b>＋</b> 버튼으로 살 물건을 추가해 보세요.</div>`;return}
+  const match=i=>(!filt.cat||i.category===filt.cat)&&(!filt.who||i.recipient===filt.who)&&(!filt.shop||i.shop===filt.shop)&&(!filt.q||[i.name,i.memo,i.shop,i.recipient,i.category].join(' ').toLowerCase().includes(filt.q));
+  const filtering=filt.cat||filt.q||filt.who||filt.shop;
+  const left=all.filter(i=>!i.bought&&match(i)).sort((a,b)=>((a.priority||2)-(b.priority||2))||(a.createdAt-b.createdAt));
+  const done=all.filter(i=>i.bought&&match(i)).sort((a,b)=>(b.boughtAt||0)-(a.boughtAt||0));
+  const grid=settings.viewMode==='grid';
+  const block=(arr,isDone)=>grid?`<div class="grid">${arr.map(i=>gCard(i,t)).join('')}</div>`:arr.map(i=>isDone?dRow(i,t):lRow(i,t)).join('');
+  let L=`<div class="sec first">살 것 ${left.length}</div>`;
+  L+=left.length?block(left,false):`<div class="empty" style="padding:22px 0">${filtering?'조건에 맞는 품목이 없어요.':'다 샀어요! 🎉'}</div>`;
+  if(done.length)L+=`<button class="sec" data-act="toggleBought"><span>산 것 ${done.length}</span>${ic(settings.boughtOpen?'chevron-up':'chevron-down',16)}</button>`+(settings.boughtOpen?block(done,true):'');
+  $('#list').innerHTML=L}
+function lRow(i,t){const q=qty(i),e=num(i.est);
+  const meta=[catChip(i.category,true),...[i.recipient,i.shop].filter(Boolean).map(esc),i.priority==3?'구경만':'',i.taxFree?'면세':''].filter(Boolean);
+  return `<div class="lrow"><div class="thumb" data-act="editItem" data-id="${i.id}">${thumb(i,20)}</div>
+    <div class="linfo" data-act="editItem" data-id="${i.id}"><div class="lname">${esc(i.name)}${q>1?` <span class="n">×${q}</span>`:''}${i.priority==1?'<span class="dot" title="꼭"></span>':''}</div>
+    <div class="lmeta">${meta.join(' · ').replace(/<\/span> · /,'</span> ')}</div>
+    <div class="lprice">${e!=null?priceLine(e*q,t):'<span class="mu">가격 미정</span>'}</div></div>${ckBtn(i)}</div>`}
+function dRow(i,t){const q=qty(i),a=num(i.actual)??num(i.est);
+  return `<div class="lrow done"><div class="thumb s" data-act="editItem" data-id="${i.id}">${thumb(i,15)}</div>
+    <div class="linfo" data-act="editItem" data-id="${i.id}"><div class="lname">${esc(i.name)}${q>1?` ×${q}`:''}</div></div>
+    ${a!=null?`<span class="small">${local(a*q,t)}</span>`:''}${ckBtn(i)}</div>`}
+function gCard(i,t){const q=qty(i),p=i.bought?(num(i.actual)??num(i.est)):num(i.est);
+  return `<div class="gcard${i.bought?' done':''}"><div class="gimg" data-act="editItem" data-id="${i.id}">${thumb(i,26)}${ckBtn(i)}${i.bought?'':catChip(i.category,true)}</div>
+    <div class="gname" data-act="editItem" data-id="${i.id}">${esc(i.name)}${q>1?` ×${q}`:''}${i.priority==1&&!i.bought?'<span class="dot"></span>':''}</div>
+    <div class="gprice">${p!=null?priceLine(p*q,t):'<span class="mu">가격 미정</span>'}</div></div>`}
 async function toggle(id){const i=items.find(x=>x.id===id);i.bought=!i.bought;
-  if(i.bought){i.boughtAt=Date.now();if(num(i.actual)==null&&num(i.est)!=null){i.actual=i.est;toast('실제 가격은 예상가로 넣어뒀어요. 탭해서 수정 가능')}}
+  if(i.bought){i.boughtAt=Date.now();if(num(i.actual)==null&&num(i.est)!=null){i.actual=i.est;toast('실제 가격은 예상가로 넣어뒀어요')}}
   await put('items',i);updateTrip()}
 
 /* ---------- 아래에서 올라오는 창 ---------- */
@@ -213,26 +336,33 @@ sheet.addEventListener('close',()=>{if(history.state&&history.state.sheet){skipP
 sheet.addEventListener('click',e=>{if(e.target===sheet)closeSheet()});
 window.addEventListener('popstate',()=>{if(skipPop){skipPop=false;return}
   if(sheet.open){sheet.close();return}if(view.name==='trip')renderTrips()});
-function refresh(){if(view.name==='trip'){const t=trips.find(x=>x.id===view.id);if(t){$('#title').textContent=t.name;updateTrip()}else renderTrips()}else renderTrips()}
+function refresh(){if(view.name==='trip'&&curTrip()){tripHeader(curTrip());updateTrip({search:true})}else renderTrips()}
+const sheetHead=title=>`<div class="sh-head"><h2 tabindex="-1" autofocus>${title}</h2><button type="button" class="icon-btn mu" data-act="close" aria-label="닫기">${ic('x',20)}</button></div>`;
 
-/* ---------- 여행 만들기/수정 ---------- */
+/* ---------- 여행 추가/수정 ---------- */
 function tripForm(id){
   const t=id?trips.find(x=>x.id===id):{name:'',place:'',start:'',end:'',currency:'',rate:''};
-  openSheet(`<form id="tripF" class="sheet"><h2 tabindex="-1" autofocus>${id?'여행 수정':'새 여행'}</h2>
-    <label class="f">여행 이름 *<input name="name" required value="${esc(t.name)}" placeholder="예: 봄 도쿄 여행"></label>
-    <label class="f">국가 / 도시<input name="place" value="${esc(t.place)}" placeholder="예: 일본 도쿄"></label>
-    <div class="two"><label class="f">출발일<input type="date" name="start" value="${esc(t.start)}"></label>
-      <label class="f">돌아오는 날<input type="date" name="end" value="${esc(t.end)}"></label></div>
-    <label class="f">현지 통화<input name="currency" list="curList" value="${esc(t.currency)}" placeholder="예: JPY, USD, EUR"></label>
+  const QUICK=['JPY','USD','EUR','THB'];let cur=code(t),custom=!!cur&&!QUICK.includes(cur);
+  openSheet(`<form id="tripF" class="sheet">${sheetHead(id?'여행 수정':'새 여행')}
+    <label class="fl">여행 이름</label><input name="name" required value="${esc(t.name)}" placeholder="예: 도쿄 봄여행">
+    <label class="fl">국가 / 도시</label><input name="place" value="${esc(t.place)}" placeholder="예: 일본 도쿄">
+    <div class="two"><div><label class="fl">출발일</label><input type="date" name="start" value="${esc(t.start)}"></div>
+      <div><label class="fl">돌아오는 날</label><input type="date" name="end" value="${esc(t.end)}"></div></div>
+    <div class="fl">현지 통화</div><div class="pick" id="curPick"></div>
+    <input id="curIn" list="curList" placeholder="통화 코드 (예: VND, TWD)" style="margin-top:6px" value="${custom?esc(cur):''}"${custom?'':' hidden'}>
     <datalist id="curList">${CURS.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join('')}</datalist>
-    <label class="f">환율: 현지 돈 1 = 몇 원?<input name="rate" inputmode="decimal" value="${esc(t.rate)}" placeholder="예: 1엔이 9.2원이면 9.2"></label>
-    <div class="note">출발 전에 은행 앱 등에서 환율을 확인해서 넣어 주세요. 여행 중에도 언제든 바꿀 수 있어요.</div>
+    <label class="fl" id="rateLbl"></label><input name="rate" inputmode="decimal" value="${esc(t.rate)}" placeholder="예: 9.2">
+    <div class="note">출발 전에 은행 앱에서 환율을 확인해 넣어 주세요. 여행 중에도 바꿀 수 있어요.</div>
     <div class="actions"><button type="button" class="btn" data-act="close">취소</button><button class="btn primary">저장</button></div>
-    ${id?`<div class="actions"><button type="button" class="btn danger" data-act="delTrip" data-id="${id}">이 여행 삭제</button></div>`:''}</form>`);
+    ${id?`<button type="button" class="link-danger" data-act="delTrip" data-id="${id}">이 여행 삭제</button>`:''}</form>`);
+  const curIn=$('#curIn'),getCur=()=>custom?curIn.value.trim().toUpperCase():cur;
+  const lbl=()=>{const c=getCur();$('#rateLbl').textContent=c==='KRW'?'환율 (원화는 비워두세요)':`환율 · 1 ${c||'현지 돈'} = 몇 원?`};
+  const draw=()=>{$('#curPick').innerHTML=QUICK.map(c=>`<button type="button" class="chip cur${!custom&&cur===c?' on':''}" data-c="${c}">${c}</button>`).join('')+`<button type="button" class="chip cur${custom?' on':''}" data-c="__custom">직접 입력</button>`;curIn.hidden=!custom;lbl()};
+  draw();
+  $('#curPick').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;if(b.dataset.c==='__custom'){custom=true;draw();curIn.focus()}else{custom=false;cur=b.dataset.c;draw()}};
+  curIn.oninput=lbl;
   $('#tripF').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);
-    const obj=Object.assign(id?trips.find(x=>x.id===id):{id:uid(),createdAt:Date.now()},{
-      name:f.get('name').trim(),place:f.get('place').trim(),start:f.get('start'),end:f.get('end'),
-      currency:f.get('currency').trim().toUpperCase(),rate:clean(f.get('rate'))});
+    const obj=Object.assign(id?t:{id:uid(),createdAt:Date.now()},{name:f.get('name').trim(),place:f.get('place').trim(),start:f.get('start'),end:f.get('end'),currency:getCur(),rate:clean(f.get('rate'))});
     if(!id)trips.push(obj);await put('trips',obj);closeSheet();refresh();toast(id?'저장했어요':'여행을 만들었어요')}}
 async function delTrip(id){const t=trips.find(x=>x.id===id),list=tripItems(id);
   if(!confirm(`'${t.name}' 여행과 품목 ${list.length}개를 모두 지울까요?\n되돌릴 수 없어요.`))return;
@@ -246,95 +376,92 @@ async function copyTrip(id){const src=trips.find(x=>x.id===id),now=Date.now();
 
 /* ---------- 품목 추가/수정 ---------- */
 function itemForm(id,savedName){
-  const t=trips.find(x=>x.id===view.id);
-  const i=id?items.find(x=>x.id===id):{name:'',category:'',recipient:'나',qty:1,shop:'',priority:2,est:'',actual:'',memo:'',photo:'',taxFree:false,bought:false};
-  let photo=i.photo||'';const wasBought=!!i.bought;
-  const cats=[...settings.categories];if(i.category&&!cats.includes(i.category))cats.push(i.category);
-  const who=uniq(['나','가족','친구',...items.map(x=>x.recipient)]),shops=uniq(items.map(x=>x.shop)),cur=esc(t.currency||'현지 돈');
-  openSheet(`<form id="itemF" class="sheet"><h2 tabindex="-1" autofocus>${id?'품목 수정':'품목 추가'}</h2>
-    ${savedName?`<div class="saved">✓ '${esc(savedName)}' 저장했어요. 다음 품목을 입력하세요.</div>`:''}
-    <label class="f">품목명 *<input name="name" required value="${esc(i.name)}" placeholder="예: 동전파스"></label>
-    <label class="f">카테고리<select name="category">${cats.map(c=>`<option value="${esc(c)}"${c===i.category?' selected':''}>${esc(c)}</option>`).join('')}<option value="__new">+ 새 카테고리 만들기</option></select></label>
-    <div class="two"><label class="f">받는 사람<input name="recipient" list="whoList" value="${esc(i.recipient)}"></label>
-      <label class="f">수량<input name="qty" type="number" inputmode="numeric" min="1" value="${esc(i.qty||1)}"></label></div>
+  const t=curTrip();
+  const i=id?items.find(x=>x.id===id):{name:'',category:filt.cat||settings.categories[0]||'기타',recipient:'나',qty:1,shop:'',priority:2,est:'',actual:'',memo:'',photo:'',taxFree:false,bought:false};
+  let photo=i.photo||'',selCat=i.category||'';const wasBought=!!i.bought;
+  const who=uniq(['나','가족','친구',...items.map(x=>x.recipient)]),shops=uniq(items.map(x=>x.shop)),cur=esc(code(t)||'현지 돈');
+  openSheet(`<form id="itemF" class="sheet">${sheetHead(id?'품목 수정':'품목 추가')}
+    ${savedName?`<div class="saved">✓ '${esc(savedName)}' 저장했어요</div>`:''}
+    <input type="file" id="photoIn" accept="image/*" hidden>
+    <label class="photo" for="photoIn" id="photoBox"></label><div class="photo-actions" id="photoAct"></div>
+    <label class="fl">품목명</label><input name="name" required value="${esc(i.name)}" placeholder="예: 동전파스">
+    <div class="fl">카테고리</div><div class="pick" id="catPick"></div>
+    <div class="two wide"><div><label class="fl">받는 사람</label><input name="recipient" list="whoList" value="${esc(i.recipient)}"></div>
+      <div><label class="fl">수량</label><input name="qty" type="number" inputmode="numeric" min="1" value="${qty(i)}"></div></div>
     <datalist id="whoList">${who.map(v=>`<option value="${esc(v)}">`).join('')}</datalist>
-    <label class="f">살 곳 (가게·지역)<input name="shop" list="shopList" value="${esc(i.shop)}" placeholder="예: 돈키호테 신주쿠점"></label>
+    <label class="fl">살 곳</label><input name="shop" list="shopList" value="${esc(i.shop)}" placeholder="예: 돈키호테 신주쿠점">
     <datalist id="shopList">${shops.map(v=>`<option value="${esc(v)}">`).join('')}</datalist>
-    <div class="f">우선순위</div>
-    <div class="seg">${[1,2,3].map(p=>`<label><input type="radio" name="priority" value="${p}"${(i.priority||2)==p?' checked':''}><span>${PRI[p]}</span></label>`).join('')}</div>
-    <div class="two"><label class="f">예상 가격 (1개, ${cur})<input name="est" inputmode="decimal" value="${esc(i.est)}"><div class="krw" id="estK"></div></label>
-      <label class="f">실제 가격 (1개, ${cur})<input name="actual" inputmode="decimal" value="${esc(i.actual)}"><div class="krw" id="actK"></div></label></div>
-    <label class="checkline"><input type="checkbox" name="taxFree"${i.taxFree?' checked':''}> 면세·택스리프리 대상</label>
-    <label class="checkline"><input type="checkbox" name="bought"${i.bought?' checked':''}> 구매 완료</label>
-    <label class="f">메모<textarea name="memo" rows="3">${esc(i.memo)}</textarea></label>
-    <div class="f">사진</div><div id="photoBox"></div>
-    <div class="row" style="margin-top:8px"><label class="btn" style="flex:1">📷 사진 선택<input type="file" accept="image/*" id="photoIn" hidden></label>
-      <button type="button" class="btn" id="photoDel" style="flex:1">사진 빼기</button></div>
-    <div class="actions"><button type="button" class="btn" data-act="close">취소</button><button class="btn primary" value="save">저장</button></div>
-    ${id?`<div class="actions"><button type="button" class="btn danger" data-act="delItem" data-id="${id}">이 품목 삭제</button></div>`
-        :`<div class="actions"><button class="btn" value="more">저장하고 하나 더 추가</button></div>`}</form>`);
+    <div class="fl">우선순위</div><div class="seg">${[1,2,3].map(p=>`<label><input type="radio" name="priority" value="${p}"${(i.priority||2)==p?' checked':''}><span>${PRI[p]}</span></label>`).join('')}</div>
+    <div class="two"><div><label class="fl">예상 가격 (1개, ${cur})</label><input name="est" inputmode="decimal" value="${esc(i.est)}"><div class="krw" id="estK"></div></div>
+      <div><label class="fl">실제 가격 (1개, ${cur})</label><input name="actual" inputmode="decimal" value="${esc(i.actual)}"><div class="krw" id="actK"></div></div></div>
+    <div class="checks"><label><input type="checkbox" name="taxFree"${i.taxFree?' checked':''}> 면세 대상</label><label><input type="checkbox" name="bought"${i.bought?' checked':''}> 구매 완료</label></div>
+    <label class="fl">메모</label><textarea name="memo" rows="2">${esc(i.memo)}</textarea>
+    <div class="actions">${id?`<button type="button" class="btn" data-act="close">취소</button>`:`<button class="btn" value="more">하나 더 추가</button>`}<button class="btn primary" value="save">저장</button></div>
+    ${id?`<button type="button" class="link-danger" data-act="delItem" data-id="${id}">이 품목 삭제</button>`:''}</form>`);
   const F=$('#itemF'),g=n=>F.elements.namedItem(n);
-  const showK=()=>{const r=num(t.rate),q=parseInt(g('qty').value)||1;
-    [['est','#estK'],['actual','#actK']].forEach(([n,el])=>{const v=num(clean(g(n).value));
-      $(el).textContent=(v!=null&&r)?`≈ ${won(v*r)}`+(q>1?` (×${q} = ${won(v*q*r)})`:''):''})};
+  const drawPhoto=()=>{$('#photoBox').innerHTML=photo?`<img src="${photo}" alt="">`:`${ic('camera',26,1.6)}<span>사진 찍기 · 앨범에서 선택</span>`;
+    $('#photoAct').innerHTML=photo?`<label for="photoIn">사진 바꾸기</label><button type="button" id="photoDel">사진 빼기</button>`:'';
+    if(photo)$('#photoDel').onclick=()=>{photo='';drawPhoto()}};
+  drawPhoto();
+  $('#photoIn').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{photo=await shrink(f);drawPhoto()}catch{alert('사진을 불러오지 못했어요')}e.target.value=''};
+  const drawCats=()=>{const cats=[...settings.categories];if(selCat&&!cats.includes(selCat))cats.push(selCat);
+    $('#catPick').innerHTML=cats.map(c=>{const k=catColor(c),on=c===selCat;return `<button type="button" class="chip" data-pick="${esc(c)}" style="background:${on?k.solid:k.bg};color:${on?'#fff':k.tx}">${esc(c)}</button>`}).join('')+`<button type="button" class="chip add" data-pick="__new">+ 추가</button>`};
+  drawCats();
+  $('#catPick').onclick=async e=>{const b=e.target.closest('[data-pick]');if(!b)return;
+    if(b.dataset.pick==='__new'){const n=(prompt('새 카테고리 이름')||'').trim();if(!n)return;
+      if(!settings.categories.includes(n)){settings.categories.push(n);await saveSettings()}selCat=n}else selCat=b.dataset.pick;drawCats()};
+  const showK=()=>{const q=Math.max(1,parseInt(g('qty').value)||1);
+    [['est','#estK'],['actual','#actK']].forEach(([n,el])=>{const v=num(clean(g(n).value)),k=v!=null?toKRW(v,t):null;
+      $(el).textContent=(k!=null&&!isKRW(t))?`≈ ${won(k)}`+(q>1?` · ${q}개 ${won(k*q)}`:''):''})};
   g('est').oninput=g('actual').oninput=g('qty').oninput=showK;showK();
-  let prevCat=g('category').value;
-  g('category').onchange=e=>{const s=e.target;if(s.value!=='__new'){prevCat=s.value;return}
-    const n=(prompt('새 카테고리 이름')||'').trim();if(!n){s.value=prevCat;return}
-    if(!settings.categories.includes(n)){settings.categories.push(n);saveSettings()}
-    if(![...s.options].some(o=>o.value===n))s.add(new Option(n,n),s.options[s.options.length-1]);s.value=prevCat=n};
-  const renderPhoto=()=>{$('#photoBox').innerHTML=photo?`<img class="photo-prev" src="${photo}" alt="">`:'<div class="note">사진 없음</div>';$('#photoDel').hidden=!photo};
-  renderPhoto();
-  $('#photoIn').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{photo=await shrink(f);renderPhoto()}catch{alert('사진을 불러오지 못했어요')}};
-  $('#photoDel').onclick=()=>{photo='';renderPhoto()};
   F.onsubmit=async e=>{e.preventDefault();
     const obj=id?i:{id:uid(),tripId:t.id,createdAt:Date.now()};
-    Object.assign(obj,{name:g('name').value.trim(),category:g('category').value==='__new'?'기타':g('category').value,
-      recipient:g('recipient').value.trim(),qty:Math.max(1,parseInt(g('qty').value)||1),shop:g('shop').value.trim(),
-      priority:+g('priority').value,est:clean(g('est').value),actual:clean(g('actual').value),
-      taxFree:g('taxFree').checked,bought:g('bought').checked,memo:g('memo').value.trim(),photo});
+    Object.assign(obj,{name:g('name').value.trim(),category:selCat||'기타',recipient:g('recipient').value.trim(),
+      qty:Math.max(1,parseInt(g('qty').value)||1),shop:g('shop').value.trim(),priority:+g('priority').value,
+      est:clean(g('est').value),actual:clean(g('actual').value),taxFree:g('taxFree').checked,bought:g('bought').checked,memo:g('memo').value.trim(),photo});
     if(obj.bought&&!wasBought)obj.boughtAt=Date.now();
-    if(!id)items.push(obj);await put('items',obj);updateTrip();
+    if(!id)items.push(obj);await put('items',obj);updateTrip({search:true});
     if(e.submitter&&e.submitter.value==='more'){itemForm(null,obj.name);return}
     closeSheet();toast(id?'저장했어요':'추가했어요')}}
 async function delItem(id){const i=items.find(x=>x.id===id);if(!confirm(`'${i.name}'을(를) 삭제할까요?`))return;
-  await remove('items',id);items=items.filter(x=>x.id!==id);closeSheet();updateTrip();toast('삭제했어요')}
+  await remove('items',id);items=items.filter(x=>x.id!==id);closeSheet();updateTrip({search:true});toast('삭제했어요')}
 function shrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),img=new Image();
-  img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),w=Math.round(img.width*s),h=Math.round(img.height*s);
-    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',0.75))};
+  img.onload=()=>{const s=Math.min(1,1000/Math.max(img.width,img.height)),w=Math.round(img.width*s),h=Math.round(img.height*s);
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',0.78))};
   img.onerror=()=>{URL.revokeObjectURL(url);rej()};img.src=url})}
 
 /* ---------- 설정 · 백업 ---------- */
 function settingsSheet(){
-  const last=settings.lastBackup?new Date(settings.lastBackup).toLocaleString('ko-KR'):'아직 없음';
-  openSheet(`<div class="sheet"><h2 tabindex="-1" autofocus>설정</h2>
-    <div class="section">입국 면세한도</div>
-    <label class="f">한도 금액 (원 단위)<input id="limitIn" inputmode="numeric" value="${esc(settings.dutyLimit)}" placeholder="비워두면 경고 안 함"></label>
-    <div class="note">면세한도는 보통 달러로 정해져 있어요. 출발 전 관세청 안내에서 한도를 확인하고 원화로 바꿔 넣어 주세요. 여행에서 실제 쓴 돈이 이 금액을 넘으면 빨간 경고가 떠요.</div>
-    <button class="btn primary" id="limitSave" style="width:100%;margin-top:8px">한도 저장</button>
-    <div class="section">카테고리</div><div id="catBox"></div>
-    <div class="row" style="margin-top:10px"><input id="catIn" placeholder="새 카테고리" style="flex:1"><button class="btn" id="catAdd">추가</button></div>
-    <div class="section">백업</div>
-    <div class="note">기록은 이 폰 안에만 저장돼요. 가끔 내보내서 구글 드라이브에 보관하세요.<br>마지막 백업: <b>${esc(last)}</b></div>
-    <div class="row" style="margin-top:10px"><button class="btn primary" id="expBtn" style="flex:1">📤 내보내기</button>
-      <label class="btn" style="flex:1">📥 불러오기<input type="file" id="impIn" hidden></label></div>
-    <div class="actions"><button class="btn" data-act="close">닫기</button></div></div>`);
-  const drawCats=()=>{$('#catBox').innerHTML=settings.categories.map(c=>`<span class="cat-chip">${esc(c)}<button data-cat="${esc(c)}" aria-label="삭제">×</button></span>`).join('')};drawCats();
-  $('#catBox').onclick=async e=>{const b=e.target.closest('[data-cat]');if(!b)return;settings.categories=settings.categories.filter(c=>c!==b.dataset.cat);await saveSettings();drawCats()};
+  const last=settings.lastBackup?new Date(settings.lastBackup).toLocaleDateString('ko-KR'):'아직 없음';
+  openSheet(`<div class="sheet">${sheetHead('설정')}
+    <div class="st first">입국 면세한도</div>
+    <div class="inrow"><input id="limitIn" inputmode="numeric" value="${num(settings.dutyLimit)?Number(num(settings.dutyLimit)).toLocaleString('ko-KR'):''}" placeholder="원 단위로 입력"><button class="btn" id="limitSave">저장</button></div>
+    <div class="note">면세한도는 보통 달러로 정해져 있어요. 출발 전 관세청 안내에서 확인하고 원화로 바꿔 넣어 주세요. 넘으면 요약에 경고가 떠요. 비워두면 표시하지 않아요.</div>
+    <div class="st">카테고리</div><div class="pick" id="catBox"></div>
+    <div class="inrow" style="margin-top:8px"><input id="catIn" placeholder="새 카테고리"><button class="btn" id="catAdd">추가</button></div>
+    <div class="st">백업</div>
+    <button class="menu-row" id="expBtn">${ic('upload',18)}<span class="grow"><span style="display:block">내보내기</span><span class="meta">마지막 백업 · ${esc(last)}</span></span>${ic('chevron-right',18)}</button>
+    <label class="menu-row last" for="impIn">${ic('download',18)}<span class="grow"><span style="display:block">불러오기</span><span class="meta">기기 변경 시 사용</span></span>${ic('chevron-right',18)}</label>
+    <input type="file" id="impIn" hidden>
+    <div class="hint">기록은 이 폰에만 저장돼요. 내보낸 파일은 구글 드라이브에 보관하세요.</div></div>`);
+  const drawCats=()=>{$('#catBox').innerHTML=settings.categories.map(c=>{const k=catColor(c);return `<span class="chip cat-del" style="background:${k.bg};color:${k.tx}">${esc(c)}<button data-del="${esc(c)}" aria-label="${esc(c)} 삭제">${ic('x',12,2.5)}</button></span>`}).join('')};drawCats();
+  $('#catBox').onclick=async e=>{const b=e.target.closest('[data-del]');if(!b)return;settings.categories=settings.categories.filter(c=>c!==b.dataset.del);await saveSettings();drawCats()};
   $('#catAdd').onclick=async()=>{const v=$('#catIn').value.trim();if(!v||settings.categories.includes(v))return;settings.categories.push(v);await saveSettings();$('#catIn').value='';drawCats()};
   $('#limitSave').onclick=async()=>{settings.dutyLimit=clean($('#limitIn').value);await saveSettings();refresh();alert('저장했어요')};
   $('#expBtn').onclick=exportData;
   $('#impIn').onchange=e=>{const f=e.target.files[0];if(f)importFile(f);e.target.value=''}}
 async function exportData(){
-  const data={app:'travel-shopping',version:1,exportedAt:new Date().toISOString(),trips,items,settings};
-  const name=`여행쇼핑_백업_${ymd()}.json`,blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+  const data={app:'travel-shopping',version:2,exportedAt:new Date().toISOString(),trips,items,settings};
+  const d=new Date(),stamp=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  const name=`여행쇼핑_백업_${stamp}.json`,blob=new Blob([JSON.stringify(data)],{type:'application/json'});
   let done=false;
   try{const file=new File([blob],name,{type:'application/json'});
     if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});done=true}}
   catch(e){if(e.name==='AbortError')return}
   if(!done){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
   settings.lastBackup=Date.now();await saveSettings();
-  alert(done?'백업 파일을 보냈어요.':'백업 파일을 "다운로드" 폴더에 저장했어요.\n구글 드라이브 앱에서 업로드해 두세요.')}
+  alert(done?'백업 파일을 보냈어요.':'백업 파일을 "다운로드" 폴더에 저장했어요.\n구글 드라이브 앱에서 업로드해 두세요.');
+  closeSheet()}
 async function importFile(f){
   try{const d=JSON.parse(await f.text());if(!Array.isArray(d.trips)||!Array.isArray(d.items))throw 0;
     if(!confirm(`백업 파일: 여행 ${d.trips.length}개, 품목 ${d.items.length}개\n\n지금 앱에 있는 기록은 지워지고 이 내용으로 바뀌어요. 계속할까요?`))return;
@@ -344,12 +471,24 @@ async function importFile(f){
   catch(e){alert('백업 파일을 읽지 못했어요.\n이 앱에서 내보낸 JSON 파일인지 확인해 주세요.')}}
 
 /* ---------- 버튼 연결 & 시작 ---------- */
-document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const{act,id}=el.dataset;
-  ({open:()=>openTrip(id),editTrip:()=>tripForm(id),copyTrip:()=>copyTrip(id),toggle:()=>toggle(id),
-    editItem:()=>itemForm(id),close:closeSheet,delTrip:()=>delTrip(id),delItem:()=>delItem(id)})[act]?.()});
-$('#backBtn').onclick=()=>history.back();
-$('#settingsBtn').onclick=settingsSheet;
-$('#fab').onclick=()=>view.name==='trips'?tripForm():itemForm();
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const d=el.dataset,id=d.id;
+  switch(d.act){
+    case 'back':history.back();break;
+    case 'settings':settingsSheet();break;
+    case 'newTrip':tripForm();break;
+    case 'newItem':itemForm();break;
+    case 'open':openTrip(id);break;
+    case 'editTrip':tripForm(id);break;
+    case 'copyTrip':copyTrip(id);break;
+    case 'toggle':toggle(id);break;
+    case 'editItem':itemForm(id);break;
+    case 'close':closeSheet();break;
+    case 'delTrip':delTrip(id);break;
+    case 'delItem':delItem(id);break;
+    case 'cat':filt.cat=d.cat;updateTrip();break;
+    case 'search':searchOpen=!searchOpen;if(!searchOpen){filt.q='';filt.who='';filt.shop=''}updateTrip({search:true});if(searchOpen)setTimeout(()=>{const q=$('#q');if(q)q.focus()},50);break;
+    case 'view':settings.viewMode=d.v;saveSettings();updateTrip();break;
+    case 'toggleBought':settings.boughtOpen=!settings.boughtOpen;saveSettings();updateTrip();break}});
 (async()=>{history.replaceState({},'');
   try{db=await openDB();await loadAll()}catch(e){$('#main').innerHTML='<div class="empty">저장공간을 열 수 없어요.<br>크롬 일반 창에서 열어 주세요.</div>';return}
   renderTrips();
